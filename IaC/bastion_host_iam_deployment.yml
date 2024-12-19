@@ -16,6 +16,13 @@ Resources:
             Action: sts:AssumeRole
       RoleName: BastionHostRole
       Path: /
+      Tags: 
+      - Key: Deployment
+        Value: IaC
+      - Key: CostMoney
+        Value: False 
+      - Key: CanDelete
+        Value: True
       Policies:
         - PolicyName: BastionHostRolePolicy
           PolicyDocument:
@@ -40,13 +47,6 @@ Resources:
                 Action:
                   - ec2:DescribeInstances
                 Resource: "*"
-      Tags: 
-      - Key: Deployment
-        Value: IaC
-      - Key: CostMoney
-        Value: False 
-      - Key: CanDelete
-        Value: True
 
   SSMRole:
     Type: AWS::IAM::Role
@@ -60,8 +60,6 @@ Resources:
             Action: sts:AssumeRole
       RoleName: SSMRole
       Path: /
-      Policies:
-        - AmazonSSMManagedInstanceCore
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -69,6 +67,8 @@ Resources:
         Value: False 
       - Key: CanDelete
         Value: True
+      Policies:
+        - AmazonSSMManagedInstanceCore
 
   BastionHostInstanceProfile:
     Type: AWS::IAM::InstanceProfile
@@ -82,7 +82,7 @@ Resources:
     Properties:
       Path: /
       Roles:
-        - !Ref SMMRole
+        - !Ref SSMRole
 
 Outputs:
   BHInstanceProfile:
