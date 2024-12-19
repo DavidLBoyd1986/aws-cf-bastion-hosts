@@ -23,6 +23,8 @@ Resources:
         Value: False 
       - Key: CanDelete
         Value: True
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
       Policies:
         - PolicyName: BastionHostRolePolicy
           PolicyDocument:
