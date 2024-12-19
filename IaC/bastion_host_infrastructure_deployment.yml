@@ -100,15 +100,15 @@ Resources:
           systemctl enable amazon-ssm-agent
           systemctl status amazon-ssm-agent
 
-  windowsBastionHost:
+  WindowsBastionHost:
     Type: AWS::EC2::Instance
     Properties: 
       ImageId: ami-05b1a50d6798f63cb # This needs updated regularly - This AMI is in us-east-1
       InstanceType: t3.medium
       SubnetId: !ImportValue BHPublicSubnetOne
       SecurityGroupIds:
-        - !Ref bastionHostSecurityGroup
-      KeyName: bastionHostKeyPair
+        - !Ref BastionHostSecurityGroup
+      KeyName: BastionHostKeyPair
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -124,7 +124,7 @@ Resources:
           net localgroup Administrators ${UserName} /add
           </powershell>
 
-  bastionHostSecurityGroup:
+  BastionHostSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: String
@@ -151,12 +151,12 @@ Resources:
         Value: True  # Allows connection to cloud resources using ssh and rdp
 
 Outputs:
-  linuxBastionHostPublicDNS:
-    Value: !GetAtt linuxBastionHost.PublicDnsName
+  LinuxBastionHostPublicDNS:
+    Value: !GetAtt LinuxBastionHost.PublicDnsName
     Description: Public DNS name of the Linux Bastion Host
 
-  windowsBastionHostPublicDNS:
-    Value: !GetAtt windowsBastionHost.PublicDnsName
+  WindowsBastionHostPublicDNS:
+    Value: !GetAtt WindowsBastionHost.PublicDnsName
     Description: Public DNS name of the Windows Bastion Host
 
   BastionHostKeyPair:
