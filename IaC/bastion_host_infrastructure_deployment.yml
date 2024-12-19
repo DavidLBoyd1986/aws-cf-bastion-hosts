@@ -38,7 +38,7 @@ Resources:
       SecurityGroupIds:
         - !Ref BastionHostSecurityGroup
       IamInstanceProfile: !ImportValue BHInstanceProfile
-      KeyName: BastionHostKeyPair
+      KeyName: !Ref BastionHostKeyPair
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -77,7 +77,7 @@ Resources:
       InstanceType: t2.micro
       SubnetId: !ImportValue BHVpcPrivateSubnetOne
       IamInstanceProfile: !ImportValue SSMInstanceProfile
-      KeyName: BastionHostKeyPair
+      KeyName: !Ref BastionHostKeyPair
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -108,7 +108,7 @@ Resources:
       SubnetId: !ImportValue BHVpcPublicSubnet
       SecurityGroupIds:
         - !Ref BastionHostSecurityGroup
-      KeyName: BastionHostKeyPair
+      KeyName: !Ref BastionHostKeyPair
       Tags: 
       - Key: Deployment
         Value: IaC
