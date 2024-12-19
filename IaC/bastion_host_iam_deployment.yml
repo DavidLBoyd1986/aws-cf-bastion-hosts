@@ -1,0 +1,98 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Bastion Host IAM Resources.'
+
+Resources:
+
+  BastionHostRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      RoleName: BastionHostRole
+      Path: /
+      Policies:
+        - PolicyName: BastionHostRolePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # Allow reading configuration files in S3
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource: "*"
+              # Allow using SSM to connect to other EC2 Instances
+              - Effect: Allow
+                Action:
+                  - ssm:StartSession
+                  - ssm:SendCommand
+                  - ssm:DescribeInstanceInformation
+                  - ssm:GetCommandInvocation
+                Resource: "arn:aws:ssm:*:*:instance/*"
+              # Allow to see other EC2 Instances
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeInstances
+                Resource: "*"
+      Tags: 
+      - Key: Deployment
+        Value: IaC
+      - Key: CostMoney
+        Value: False 
+      - Key: CanDelete
+        Value: True
+
+  SSMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      RoleName: SSMRole
+      Path: /
+      Policies:
+        - AmazonSSMManagedInstanceCore
+      Tags: 
+      - Key: Deployment
+        Value: IaC
+      - Key: CostMoney
+        Value: False 
+      - Key: CanDelete
+        Value: True
+
+  BastionHostInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref BastionHostRole
+
+  SSMInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref SMMRole
+
+Outputs:
+  BHInstanceProfile:
+    Description: Name of the Bastion Host Instance Profile
+    Value: !Ref BastionHostInstanceProfile
+    Export:
+      Name: BHInstanceProfile
+
+  SSMInstanceProfile:
+    Description: Name of the SSM Instance Role
+    Value: !Ref SSMInstanceProfile
+    Export:
+      Name: SSMInstanceProfile
