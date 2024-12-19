@@ -67,8 +67,8 @@ Resources:
         Value: False 
       - Key: CanDelete
         Value: True
-      Policies:
-        - AmazonSSMManagedInstanceCore
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 
   BastionHostInstanceProfile:
     Type: AWS::IAM::InstanceProfile
