@@ -13,7 +13,7 @@ aws cloudformation deploy --stack-name bh-vpc-stack \
 echo "Deploy the BH IAM stack"
 aws cloudformation deploy --stack-name bh-iam-stack \
     --template-file $SCRIPT_DIR/IaC/bastion_host_iam_deployment.yml \
-    --capabilities CAPABILITY_IAM
+    --capabilities CAPABILITY_NAMED_IAM
 
 echo "Deploy the BH Infrastructure stack - EC2 Instance with Security Groups"
 aws cloudformation create-stack --stack-name bh-infrastructure-stack \

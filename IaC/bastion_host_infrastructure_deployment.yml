@@ -89,9 +89,9 @@ Resources:
         Fn::Base64: !Sub |
           #!/bin/bash
           # Create a normal user with admin permissions
-          useradd -m ${userName}
-          echo "${userName} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-          mkdir -p /home/${userName}/.ssh
+          useradd -m ${UserName}
+          echo "${UserName} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+          mkdir -p /home/${UserName}/.ssh
 
           # Install and Start the AWS SSM Agent
           yum update -y
@@ -120,8 +120,8 @@ Resources:
         Fn::Base64: !Sub |
           <powershell>
           # Create a normal user with admin permissions
-          net user ${userName} ${userPass} /add
-          net localgroup Administrators ${userName} /add
+          net user ${UserName} ${UserPass} /add
+          net localgroup Administrators ${UserName} /add
           </powershell>
 
   bastionHostSecurityGroup:
@@ -137,11 +137,11 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3389
           ToPort: 3389
-          CidrIp: !Ref personalPublicIP # Allow inbound traffic from personal IP
+          CidrIp: !Ref PersonalPublicIP # Allow inbound traffic from personal IP
         - IpProtocol: tcp
           FromPort: 22
           ToPort: 22
-          CidrIp: !Ref personalPublicIP # Allow inbound traffic from personal IP
+          CidrIp: !Ref PersonalPublicIP # Allow inbound traffic from personal IP
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -159,8 +159,8 @@ Outputs:
     Value: !GetAtt windowsBastionHost.PublicDnsName
     Description: Public DNS name of the Windows Bastion Host
 
-  bastionHostKeyPair:
-    Value:  !Ref bastionHostKeyPair
+  BastionHostKeyPair:
+    Value:  !Ref BastionHostKeyPair
     Description: The keypair used to access the Bastion Host
     Export:
-      Name: bastionHostKeyPair
+      Name: BastionHostKeyPair
