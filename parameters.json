@@ -14,6 +14,10 @@
     {
       "ParameterKey": "BastionHostPublicKey",
       "ParameterValue": "ssh-rsa blahblahblah BastionUser@yourcomputer"
+    },
+    {
+      "ParameterKey": "TestPublicKey",
+      "ParameterValue": "ssh-rsa blahblahblah BastionUser@yourcomputer"
     }
   ]
   

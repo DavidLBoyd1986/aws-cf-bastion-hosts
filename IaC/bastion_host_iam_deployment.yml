@@ -43,6 +43,10 @@ Resources:
                   - ssm:SendCommand
                   - ssm:DescribeInstanceInformation
                   - ssm:GetCommandInvocation
+                  - ssm:DescribeSessions
+				          - ssm:GetConnectionStatus
+				          - ssm:DescribeInstanceInformation
+				          - ssm:TerminateSession
                 Resource: "arn:aws:ssm:*:*:instance/*"
               # Allow to see other EC2 Instances
               - Effect: Allow
