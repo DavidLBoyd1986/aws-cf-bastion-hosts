@@ -173,7 +173,7 @@ Resources:
           CidrIp: 0.0.0.0/0   # Allow all outbound traffic
       SecurityGroupIngress:
         - IpProtocol: -1
-          SourceSecurityGroupName: !Ref BastionHostSecurityGroup
+          SourceSecurityGroupId: !Ref BastionHostSecurityGroup
       Tags: 
       - Key: Deployment
         Value: IaC
