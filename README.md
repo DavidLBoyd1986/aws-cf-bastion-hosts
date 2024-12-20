@@ -48,9 +48,11 @@ This Guide is meant to be used to deploy all this using a Linux CLI. The steps f
             - Default region name: "Region you are deploying to"
             - Default output format: "Leave blank for JSON"
 
-        <b>IMPORTANT</b>
+        <b>IMPORTANT:</b><br>
         The region you configure for the aws-cli is the region you will be deploying your resources to.
-        If a template has a region parameter, it most likely must match the region configure for the aws-cli.
+        If a template has a region parameter, it most likely must match the region configured for the aws-cli.
+        
+        <b>NOTE:</b><br>
         Can override this configured region by using the '--region' parameter for any aws-cli command.
 
 2. Create an ssh-keypair
