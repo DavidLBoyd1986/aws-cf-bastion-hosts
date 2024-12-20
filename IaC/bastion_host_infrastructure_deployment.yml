@@ -21,11 +21,6 @@ Parameters:
     Description: The public ssh key material for user added to the Bastion Hosts
     # Must be added to cloudformation command in build_script.sh that deploys this stack.
 
-  TestPublicKey:
-    Type: String
-    Description: The public ssh key put on everything, to enable ssh from bastion host
-    # Must be added to cloudformation command in build_script.sh that deploys this stack.
-
 Resources:
 
   BastionHostKeyPair:
@@ -33,12 +28,6 @@ Resources:
     Properties:
       KeyName: BastionHostKeyPair
       PublicKeyMaterial: !Ref BastionHostPublicKey
-
-  TestKeyPair:
-    Type: AWS::EC2::KeyPair
-    Properties:
-      KeyName: TestKeyPair
-      PublicKeyMaterial: !Ref TestPublicKey
 
   LinuxBastionHost:
     Type: AWS::EC2::Instance
@@ -92,9 +81,6 @@ Resources:
       InstanceType: t2.micro
       SubnetId: !ImportValue BHVpcPrivateSubnetOne
       IamInstanceProfile: !ImportValue SSMInstanceProfile
-      KeyName: !Ref TestKeyPair
-      SecurityGroupIds:
-        - !Ref PrivateSecurityGroup
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -169,27 +155,6 @@ Resources:
       - Key: CanDelete
         Value: True  # Allows connection to cloud resources using ssh and rdp
 
-  # Change this to only allow SSH, RDP, HTTP, HTTPS, ICMP, and anything that SSM might require.
-  PrivateSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Private Subnet Security Group that allows all traffic from the Bastion Host Security Group
-      GroupName: PrivateSubnetSecurityGroup
-      VpcId: !ImportValue BHVpcId
-      SecurityGroupEgress:
-        - IpProtocol: -1 
-          CidrIp: 0.0.0.0/0   # Allow all outbound traffic
-      SecurityGroupIngress:
-        - IpProtocol: -1
-          SourceSecurityGroupId: !Ref BastionHostSecurityGroup
-      Tags: 
-      - Key: Deployment
-        Value: IaC
-      - Key: CostMoney
-        Value: False 
-      - Key: CanDelete
-        Value: True  # Allows connection to cloud resources using ssh and rdp
-
 Outputs:
   LinuxBastionHostPublicDNS:
     Value: !GetAtt LinuxBastionHost.PublicDnsName
@@ -198,9 +163,3 @@ Outputs:
   WindowsBastionHostPublicDNS:
     Value: !GetAtt WindowsBastionHost.PublicDnsName
     Description: Public DNS name of the Windows Bastion Host
-
-  BastionHostKeyPair:
-    Value:  !Ref BastionHostKeyPair
-    Description: The keypair used to access the Bastion Host
-    Export:
-      Name: BastionHostKeyPair

@@ -1,7 +1,7 @@
 [
     {
       "ParameterKey": "PersonalPublicIP",
-      "ParameterValue": "111.22.33.444/32"
+      "ParameterValue": "11.22.33.44/32"
     },
     {
       "ParameterKey": "UserName",
@@ -13,10 +13,6 @@
     },
     {
       "ParameterKey": "BastionHostPublicKey",
-      "ParameterValue": "ssh-rsa blahblahblah BastionUser@yourcomputer"
-    },
-    {
-      "ParameterKey": "TestPublicKey",
       "ParameterValue": "ssh-rsa blahblahblah BastionUser@yourcomputer"
     }
   ]
