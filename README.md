@@ -8,25 +8,33 @@ SSM is used to connect from Bastion Hosts to the servers in the private subnet.
 <h3>Prerequisites</h3>
 
 1. The aws-cli is installed and configured on the machine you are deploying these templates from 
-    a. Install aws-cli
-    b. Configure aws-cli with access key or IAM Role
+    
+    - Install aws-cli
+    - Configure aws-cli with access key or IAM Role
 
 2. Create an ssh-keypair
-    a. ssh-keygen -t rsa -m PEM -b 2048 -f ~/.ssh/aws_bh_id_rsa
-        - You can leave off the -f argument to save it here ~/.ssh/id_rsa
-        - WARNING- Leaving off '-f' could overwrite an existing ssh-key for the user you're using.
-    b. Look in '~/.ssh/' and copy the contents of 'id_rsa.pub' 
-    c. Paste this in the parameters file listed below, under 'bastionHostPublicKey'
+    
+    `ssh-keygen -t rsa -m PEM -b 2048 -f ~/.ssh/aws_bh_id_rsa`
 
-    LINUX NOTE - This key is also configured for the 'userName' configured under parameters.
-               - So, you can log in with this key for Linux as 'ec2-user' or the configured user.
+    - You can leave off the -f argument to save it as just 'id_rsa'
+    - <b>WARNING:</b> Leaving off '-f' could overwrite an existing ssh-key
+    
+3. Look in '\~/.ssh/' and copy the contents of 'id_rsa.pub' 
 
-    WINDOWS NOTE - The ssh key can be used to decipher the 'Administrator' password for windows.
-                 - Use 'connect' under the ec2 instance to decipher the password.
-                 - 'userName' added can log into windows instance with 'userPass' configured.
-                 - Logging into windows with configured user and password isn't working right now. 
+4. Paste this in the parameters file, in step 5 below, under 'bastionHostPublicKey'
 
-3. Required Parameters need added in parameters.json:
+    <b>LINUX NOTE:</b>
+     - This key is also configured for the 'userName' configured under parameters.
+     - So, you can log in with this key for Linux as 'ec2-user' or the configured user.
+
+    <b>WINDOWS NOTE</b>
+     - The ssh key can be used to decipher the 'Administrator' password for windows.
+     - Use 'connect' under the ec2 instance to decipher the password.
+     - 'userName' added can log into windows instance with 'userPass' configured.
+     - Logging into windows with configured user and password isn't working right now. 
+
+5. Required Parameters need added in parameters.json:
+
     - PersonalPublicIP
     - UserName
     - UserPass
