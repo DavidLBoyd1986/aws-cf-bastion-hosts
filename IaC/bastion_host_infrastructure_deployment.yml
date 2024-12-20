@@ -74,6 +74,10 @@ Resources:
           unzip awscliv2.zip
           ./aws/install --update
 
+          # Install this plugin as well
+          curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+          sudo yum install -y session-manager-plugin.rpm
+
           # Install and Start the AWS SSM Agent
           yum update -y
           yum install -y amason-ssm-agent
@@ -109,10 +113,6 @@ Resources:
           # Install and Start the AWS SSM Agent
           yum update -y
           yum install -y amazon-ssm-agent
-
-          # Install this plugin as well
-          curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
-          sudo yum install -y session-manager-plugin.rpm
 
           # Enable and Start SSM Agent
           systemctl start amazon-ssm-agent
