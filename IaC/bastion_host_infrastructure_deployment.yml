@@ -89,6 +89,8 @@ Resources:
       SubnetId: !ImportValue BHVpcPrivateSubnetOne
       IamInstanceProfile: !ImportValue SSMInstanceProfile
       KeyName: !Ref TestKeyPair
+      SecurityGroupIds:
+        - !Ref PrivateSecurityGroup
       Tags: 
       - Key: Deployment
         Value: IaC
@@ -106,7 +108,13 @@ Resources:
 
           # Install and Start the AWS SSM Agent
           yum update -y
-          yum install -y amason-ssm-agent
+          yum install -y amazon-ssm-agent
+
+          # Install this plugin as well
+          curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+          sudo yum install -y session-manager-plugin.rpm
+
+          # Enable and Start SSM Agent
           systemctl start amazon-ssm-agent
           systemctl enable amazon-ssm-agent
           systemctl status amazon-ssm-agent

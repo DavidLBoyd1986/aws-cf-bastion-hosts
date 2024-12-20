@@ -47,7 +47,7 @@ Resources:
                   - ssm:GetConnectionStatus
                   - ssm:DescribeInstanceInformation
                   - ssm:TerminateSession
-                Resource: "arn:aws:ssm:*:*:instance/*"
+                Resource: "*"
               # Allow to see other EC2 Instances
               - Effect: Allow
                 Action:
