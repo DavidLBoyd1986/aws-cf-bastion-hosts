@@ -8,10 +8,6 @@
       "ParameterValue": "BastionUser"
     },
     {
-      "ParameterKey": "UserPass",
-      "ParameterValue": "ChangeThisNow!!!!"
-    },
-    {
       "ParameterKey": "BastionHostPublicKey",
       "ParameterValue": "ssh-rsa blahblahblah BastionUser@yourcomputer"
     }

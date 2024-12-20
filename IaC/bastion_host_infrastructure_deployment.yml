@@ -11,11 +11,6 @@ Parameters:
     Description: IAM User added to the Bastion Hosts.
     # Must be added to cloudformation command in build_script.sh that deploys this stack.
 
-  UserPass:
-    Type: String
-    Description: Password for the IAM User added to the Bastion Hosts.
-    # Must be added to cloudformation command in build_script.sh that deploys this stack.
-
   BastionHostPublicKey:
     Type: String
     Description: The public ssh key material for user added to the Bastion Hosts
@@ -29,7 +24,6 @@ Metadata:
         Parameters:
           - PersonalPublicIP
           - UserName
-          - UserPass
           - BastionHostPublicKey
 
 Resources:
@@ -132,13 +126,6 @@ Resources:
         Value: True
       - Key: CanDelete
         Value: True
-      UserData:
-        Fn::Base64: !Sub |
-          <powershell>
-          # Create a normal user with admin permissions
-          net user ${UserName} ${UserPass} /add
-          net localgroup Administrators ${UserName} /add
-          </powershell>
 
   BastionHostSecurityGroup:
     Type: AWS::EC2::SecurityGroup

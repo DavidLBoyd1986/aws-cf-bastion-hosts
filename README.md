@@ -5,12 +5,53 @@ Generates a VPC with Bastion Hosts (Linux and Windows) running in a public subne
 
 SSM is used to connect from Bastion Hosts to the servers in the private subnet.
 
+This Guide is meant to be used to deploy all this using a Linux CLI. The steps for deploying it from Windows would obviously be different.
+
 <h3>Prerequisites</h3>
 
-1. The aws-cli is installed and configured on the machine you are deploying these templates from 
+1. The aws-cli is installed: 
     
     - Install aws-cli
-    - Configure aws-cli with access key or IAM Role
+
+          ```
+          # Install aws-cli
+          yum install -y unzip
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" --output awscliv2.zip
+          unzip awscliv2.zip
+          ./aws/install --update
+          ```
+
+2. Configure aws-cli with access key or IAM Role (if deploying from an EC2-Instance)
+
+    1. Create the Access Key using the GUI:
+
+        1. IAM/Users/{Your User}/Security Credentials/Access Keys
+
+        2. Click 'Create access key'
+
+        3. Select 'Command Line Interface (CLI)'
+
+        4. Confirm your selection, and click 'Next'
+
+        5. Click 'Create access key'
+
+        6. Click 'Download .csv file' to download the created Access Key
+
+    2. Configure aws-cli to use the access key
+
+        `aws configure`
+
+        - You'll be prompted to enter 4 fields:
+
+            - AWS Access Key ID: "On .csv you downloaded"
+            - AWS Secret Access Key: "On .csv you downloaded"
+            - Default region name: "Region you are deploying to"
+            - Default output format: "Leave blank for JSON"
+
+        <b>IMPORTANT</b>
+        The region you configure for the aws-cli is the region you will be deploying your resources to.
+        If a template has a region parameter, it most likely must match the region configure for the aws-cli.
+        Can override this configured region by using the '--region' parameter for any aws-cli command.
 
 2. Create an ssh-keypair
     
@@ -21,23 +62,21 @@ SSM is used to connect from Bastion Hosts to the servers in the private subnet.
     
 3. Look in '\~/.ssh/' and copy the contents of 'aws_bh_id_rsa.pub' 
 
-4. Paste this in the parameters file, in step 5 below, under 'bastionHostPublicKey'
+4. Paste this in the parameters file, in step 5 below, under 'BastionHostPublicKey'
 
     <b>LINUX NOTE:</b>
-     - This key is also configured for the 'userName' configured under parameters.
+     - This key is also configured for the 'UserName' configured under parameters.
      - So, you can log in with this key for Linux as 'ec2-user' or the configured user.
 
     <b>WINDOWS NOTE</b>
      - The ssh key can be used to decipher the 'Administrator' password for windows.
      - Use 'connect' under the ec2 instance to decipher the password.
-     - 'userName' added can log into windows instance with 'userPass' configured.
-     - Logging into windows with configured user and password isn't working right now. 
+     - I did not configure 'UserName' for windows, I might later...
 
 5. Required Parameters need added in parameters.json:
 
     - PersonalPublicIP
     - UserName
-    - UserPass
     - BastionHostPublicKey
 
 <h2>Deploying the CloudFormation Templates</h2>
@@ -88,7 +127,7 @@ SSM is used to connect from Bastion Hosts to the servers in the private subnet.
 
 <h3>TODO:</h3>
 
-- Windows Bastion Host - Fix logging in remotely as configured user
+- Windows Bastion Host - Add UserName to BastionHost to login
 
 - Allow AMIs to be parameters
 
