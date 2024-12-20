@@ -21,6 +21,17 @@ Parameters:
     Description: The public ssh key material for user added to the Bastion Hosts
     # Must be added to cloudformation command in build_script.sh that deploys this stack.
 
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Bastion Host Configurations"
+        Parameters:
+          - PersonalPublicIP
+          - UserName
+          - UserPass
+          - BastionHostPublicKey
+
 Resources:
 
   BastionHostKeyPair:

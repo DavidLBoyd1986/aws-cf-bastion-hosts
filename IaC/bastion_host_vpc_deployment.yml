@@ -27,8 +27,7 @@ Parameters:
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
-      -
-        Label:
+      - Label:
           default: "Worker Network Configuration"
         Parameters:
           - VpcBlock

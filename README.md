@@ -19,7 +19,7 @@ SSM is used to connect from Bastion Hosts to the servers in the private subnet.
     - You can leave off the -f argument to save it as just 'id_rsa'
     - <b>WARNING:</b> Leaving off '-f' could overwrite an existing ssh-key
     
-3. Look in '\~/.ssh/' and copy the contents of 'id_rsa.pub' 
+3. Look in '\~/.ssh/' and copy the contents of 'aws_bh_id_rsa.pub' 
 
 4. Paste this in the parameters file, in step 5 below, under 'bastionHostPublicKey'
 
@@ -89,10 +89,6 @@ SSM is used to connect from Bastion Hosts to the servers in the private subnet.
 <h3>TODO:</h3>
 
 - Windows Bastion Host - Fix logging in remotely as configured user
-
-- Test if that InstanceProfile is required on test host. Pretty sure it is because it has this policy on it
-    
-    arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
 
 - Allow AMIs to be parameters
 
