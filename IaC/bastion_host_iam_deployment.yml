@@ -44,7 +44,7 @@ Resources:
                   - ssm:DescribeInstanceInformation
                   - ssm:GetCommandInvocation
                   - ssm:DescribeSessions
-				          - ssm:GetConnectionStatus
+                  - ssm:GetConnectionStatus
 				          - ssm:DescribeInstanceInformation
 				          - ssm:TerminateSession
                 Resource: "arn:aws:ssm:*:*:instance/*"
